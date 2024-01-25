@@ -1,0 +1,4 @@
+pokeball 3
+greatball 3
+ultraball 3
+masterball 1

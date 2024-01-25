@@ -1,0 +1,27 @@
+[package]
+name = "pokecatch"
+authors = [ "talwat (original), Charalampos Deves" ]
+version = "1.0.0"
+edition = "2021"
+description = "Display and catch pokemon in your terminal."
+license = "MIT"
+readme = "README.md"
+#TODO: update when we finish
+documentation = "https://github.com/talwat/pokecatch-rs"
+homepage = "https://github.com/talwat/pokecatch-rs"
+repository = "https://github.com/talwat/pokecatch-rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+Inflector = { version = "0.11.4", default-features = false }
+clap = { version = "4.3.19", features = ["derive"] }
+image = { version = "0.24.6", default-features = false, features = [
+    "png",
+    "rgb",
+] }
+rand = "0.8.5"
+rust-embed = { version = "8.2.0", features = ["include-exclude"] }
+showie = "1.0.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1"
