@@ -1,6 +1,9 @@
 # pokecatch-rs
 An expanded version of [pokeget-rs](https://github.com/talwat/pokeget-rs) with extra functionality for catching pokemons and using items.
 
+## Disclaimer
+The code is in dire need of refactoring and cleanup, and there are still things left to do, but it pretty much works.
+
 ## Usage
 Configure your terminal to run `pokecatch` each time you open it or just run `pokecatch` on your terminal.
 

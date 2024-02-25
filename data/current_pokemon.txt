@@ -1,1 +1,1 @@
-{"name":"","shiny":false,"legendary":false}
+{"name":"alcremie-mint-cream-clover","shiny":false,"legendary":false}
