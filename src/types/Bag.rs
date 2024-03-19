@@ -2,15 +2,15 @@ use serde::{Deserialize, Serialize};
 use std::ops::{Deref, DerefMut};
 
 use crate::types::BaseEntity::*;
+use crate::paths::*;
 
-const BAG_CONTENTS_PATH: &str = "data/bag_contents.txt";
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Bag(pub BaseEntities);
 
 impl Bag {
     pub fn contents() -> Self {
-        Bag(BaseEntities::deserialize(BAG_CONTENTS_PATH))
+        Bag(BaseEntities::deserialize(&get_bag_contents_path()))
     }
 }
 

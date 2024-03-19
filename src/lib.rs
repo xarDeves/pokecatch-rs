@@ -3,6 +3,7 @@ use rust_embed::RustEmbed;
 pub mod cli;
 pub mod sprites;
 pub mod utils;
+pub mod paths;
 
 #[allow(non_snake_case)]
 pub mod types {

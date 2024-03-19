@@ -5,9 +5,8 @@ use std::io::{BufRead, BufReader, Write};
 use std::fs::File;
 
 use crate::types::BaseEntity::*;
+use crate::paths::*;
 
-const CURRENT_POKEMON_PATH: &str = "data/current_pokemon.txt";
-const POKEMON_ENCOUNTER_CHANCES_PATH: &str = "data/config/pokemon_encounter_chance.config";
 
 #[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub struct Pokemon {
@@ -36,22 +35,22 @@ impl Pokemon {
     pub fn write_to_current(pokemon: &Pokemon) {
         let json_str = serde_json::to_string(pokemon).unwrap();
     
-        match File::create(CURRENT_POKEMON_PATH) {
+        match File::create(get_current_pokemon_path()) {
             Ok(mut file) => {
                 if let Err(err) = file.write_all(json_str.as_bytes()) {
-                    eprintln!("Error writing to file {}: {}", CURRENT_POKEMON_PATH, err);
+                    //eprintln!("Error writing to file {}: {}", CURRENT_POKEMON_PATH, err);
                 } else {
-                    eprintln!("Successfully wrote {} to {}", json_str, CURRENT_POKEMON_PATH);
+                    //eprintln!("Successfully wrote {} to {}", json_str, CURRENT_POKEMON_PATH);
                 }
             }
             Err(_) => {
-                eprintln!("Error creating or opening file {}", CURRENT_POKEMON_PATH);
+                //eprintln!("Error creating or opening file {}", CURRENT_POKEMON_PATH);
             }
         }
     }
 
     pub fn read_from_current() -> Pokemon {
-        match File::open(CURRENT_POKEMON_PATH) {
+        match File::open(get_current_pokemon_path()) {
             Ok(file) => {
                 let reader = BufReader::new(file);
                 if let Some(Ok(line)) = reader.lines().next() {
@@ -61,7 +60,7 @@ impl Pokemon {
                 }
             }
             Err(_) => {
-                eprintln!("Error opening file {}", CURRENT_POKEMON_PATH);
+                //eprintln!("Error opening file {}", CURRENT_POKEMON_PATH);
             }
         }
     
@@ -74,7 +73,7 @@ impl Pokemon {
     }
 
     pub fn read_encounter_rates() -> BaseEntities {
-        BaseEntities::deserialize(POKEMON_ENCOUNTER_CHANCES_PATH)
+        BaseEntities::deserialize(&get_pokemon_encounter_chances_path())
     }
 }
 

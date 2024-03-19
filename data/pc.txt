@@ -1,0 +1,2 @@
+{"name":"regice","shiny":false,"legendary":true}
+{"name":"gloom","shiny":false,"legendary":false}

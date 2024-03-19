@@ -2,9 +2,8 @@ use serde::{Deserialize, Serialize};
 use std::ops::Deref;
 
 use crate::types::BaseEntity::*;
+use crate::paths::*;
 
-const ITEM_POWERUP_CHANCES_PATH: &str = "data/config/item_powerup_chances.config";
-const ITEM_ENCOUNTER_CHANCES_PATH: &str = "data/config/item_encounter_chances.config";
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Item(pub BaseEntities);
@@ -19,10 +18,10 @@ impl Deref for Item {
 
 impl Item {
     pub fn powerup_chances() -> Self {
-        Item(BaseEntities::deserialize(ITEM_POWERUP_CHANCES_PATH))
+        Item(BaseEntities::deserialize(&get_item_powerup_chances_path()))
     }
 
     pub fn encounter_chances() -> Self {
-        Item(BaseEntities::deserialize(ITEM_ENCOUNTER_CHANCES_PATH))
+        Item(BaseEntities::deserialize(&get_item_encounter_chances_path()))
     }
 }

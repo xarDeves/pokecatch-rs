@@ -3,14 +3,14 @@ use serde_json::from_str;
 use std::fs::{File, OpenOptions};
 
 use crate::types::Pokemon::*;
-
-const PC_PATH: &str = "data/pc.txt";
+use crate::paths::*;
 
 pub struct Pc;
 
+
 impl Pc {
     pub fn is_present(target_pokemon: &Pokemon) -> bool {
-        let file = match File::open(PC_PATH) {
+        let file = match File::open(get_pc_path()) {
             Ok(file) => file,
             Err(_) => return false,
         };
@@ -34,7 +34,7 @@ impl Pc {
             .write(true)
             .append(true)
             .create(true)
-            .open(PC_PATH)
+            .open(get_pc_path())
             .unwrap();
 
         let mut file_writer = io::BufWriter::new(file);
@@ -43,7 +43,7 @@ impl Pc {
     }
 
     pub fn to_vector() -> Vec<Pokemon> {
-        let file = File::open(PC_PATH).unwrap();
+        let file = File::open(get_pc_path()).unwrap();
         let reader = BufReader::new(file);
         let mut pokemon_vec = Vec::new();
 

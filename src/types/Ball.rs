@@ -2,9 +2,8 @@ use serde::{Deserialize, Serialize};
 use std::ops::{Deref, DerefMut};
 
 use crate::types::BaseEntity::*;
+use crate::paths::*;
 
-const POKEBALL_CONTENTS_PATH: &str = "data/pokeball_available.txt";
-const POKEBALL_CHANCES_PATH: &str = "data/config/pokeball_chances.config";
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Ball;
@@ -28,7 +27,7 @@ impl DerefMut for Pokeballs {
 
 impl Pokeballs {
     pub fn new() -> Self {
-        Pokeballs(BaseEntities::deserialize(POKEBALL_CONTENTS_PATH))
+        Pokeballs(BaseEntities::deserialize(&get_pokeball_contents_path()))
     }
 
     pub fn get(&self) -> &BaseEntities {
@@ -49,7 +48,7 @@ impl Deref for Catchrates {
 
 impl Catchrates {
     pub fn new() -> Self {
-        Catchrates(BaseEntities::deserialize(POKEBALL_CHANCES_PATH))
+        Catchrates(BaseEntities::deserialize(&get_pokeball_chances_path()))
     }
 
     pub fn get(&self) -> &BaseEntities {

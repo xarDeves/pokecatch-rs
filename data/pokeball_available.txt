@@ -1,4 +1,4 @@
-pokeball 4
-greatball 3
-ultraball 4
-masterball 1
+pokeball 6
+greatball 5
+ultraball 1
+masterball 0

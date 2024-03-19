@@ -55,7 +55,7 @@ pub fn get_random_sprite_from_file(
 
     Data::get(path.as_str())
         .unwrap_or_else(|| {
-            eprintln!("pokemon not found at {}", path);
+            //eprintln!("pokemon not found at {}", path);
             exit(1);
         })
         .data
@@ -74,7 +74,7 @@ pub fn get_sprite(
 
     Data::get(path.as_str())
         .unwrap_or_else(|| {
-            eprintln!("pokemon not found at {}", path);
+            //eprintln!("pokemon not found at {}", path);
             exit(1);
         })
         .data

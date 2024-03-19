@@ -3,6 +3,7 @@ use clap::Parser;
 use pokecatch::utils::*;
 use pokecatch::cli::*;
 use pokecatch::sprites::*;
+use pokecatch::paths::*;
 
 use pokecatch::types::BaseEntity::*;
 use pokecatch::types::Pc::*;
@@ -11,8 +12,6 @@ use pokecatch::types::Pokemon::*;
 use pokecatch::types::Ball::*;
 use pokecatch::types::Item::*;
 
-const POKEBALL_CONTENTS_PATH: &str = "data/pokeball_available.txt";
-const BAG_CONTENTS_PATH: &str = "data/bag_contents.txt";
 
 fn throw(ball: &str) {
     let current_pokemon = Pokemon::read_from_current();
@@ -44,7 +43,7 @@ fn throw(ball: &str) {
         return;
     }
 
-    BaseEntities::serialize(POKEBALL_CONTENTS_PATH, &pokeballs_contents);
+    BaseEntities::serialize(&get_pokeball_contents_path(), &pokeballs_contents);
 
     if caught {
         Pc::add(&current_pokemon);
@@ -79,7 +78,7 @@ fn pc_show(args: &PcShowArgs) {
         let mut pokemons = Pc::to_vector();
         let (_width, _height, sprites) = get_sprites(&mut pokemons);
 
-        eprintln!(
+        println!(
             "{}\n",
             pokemons
                 .iter()
@@ -95,7 +94,7 @@ fn pc_show(args: &PcShowArgs) {
         
         //display caught horizontally
         /* let combined = combine_sprites_horizontally(width, height, &sprites);
-        eprintln!(
+        println!(
             "{}\n",
             pokemons
                 .iter()
@@ -139,7 +138,7 @@ fn bag_use(args: &BagUseArgs) {
         use_individual_baits(&mut bag_contents, &args.items);
     }
 
-    BaseEntities::serialize(BAG_CONTENTS_PATH, &bag_contents);
+    BaseEntities::serialize(&get_bag_contents_path(), &bag_contents);
 }
 
 fn use_legendary_and_shiny_bait(bag_contents: &mut Bag) {
@@ -190,7 +189,7 @@ fn use_individual_bait(bag_contents: &mut Bag, item: &str, bait_type: &str) {
     println!("Using item: {}", item);
 
     bag_contents.modify_quantity(item, -1);
-    BaseEntities::serialize(BAG_CONTENTS_PATH, &bag_contents);
+    BaseEntities::serialize(&get_bag_contents_path(), &bag_contents);
 
     let success = calc_success_from_percentage(Item::powerup_chances().get_quantity(item));
 
@@ -255,8 +254,8 @@ fn roll_and_fetch_random_item() {
         println!("No items encountered...");
     }
 
-    BaseEntities::serialize(BAG_CONTENTS_PATH, &bag);
-    BaseEntities::serialize(POKEBALL_CONTENTS_PATH, &pokeballs);
+    BaseEntities::serialize(&get_bag_contents_path(), &bag);
+    BaseEntities::serialize(&get_pokeball_contents_path(), &pokeballs);
 }
 
 fn execute_subcommand(args: &Args) -> bool {
