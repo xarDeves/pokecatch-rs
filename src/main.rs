@@ -270,13 +270,15 @@ fn execute_subcommand(args: &Args) -> bool {
             SubCommand::Throw { ball } => throw(ball),
             SubCommand::Pc { pc_subcommand } => match pc_subcommand {
                 Some(PcSubCommand::Show(pc_show_args)) => pc_show(pc_show_args),
-                None => return false,
+                //TODO: print available subcommands
+                None => return true,
             },            
             SubCommand::Bag { bag_subcommand } => match bag_subcommand {
                 Some(BagSubCommand::Show) => bag_show(),
                 Some(BagSubCommand::Use(items)) => bag_use(items),
                 Some(BagSubCommand::Pokeballs) => show_balls(),
-                None => return false,
+                //TODO: print available subcommands
+                None => return true,
             },
         }
         return true;
