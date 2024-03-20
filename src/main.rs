@@ -40,6 +40,7 @@ fn throw(ball: &str) {
         caught = calc_success_from_percentage(catch_rate);
     } else {
         println!("Not enough {}s", ball);
+        show_balls();
         return;
     }
 
@@ -127,6 +128,11 @@ fn bag_show() {
     for item in &bag_contents.0 .0 {
         println!("{} - {}", item.name, item.quantity);
     }
+}
+
+fn show_balls(){
+    let pokeballs = Ball::pokeballs();
+    BaseEntities::print_items(&pokeballs);
 }
 
 fn bag_use(args: &BagUseArgs) {
@@ -269,6 +275,7 @@ fn execute_subcommand(args: &Args) -> bool {
             SubCommand::Bag { bag_subcommand } => match bag_subcommand {
                 Some(BagSubCommand::Show) => bag_show(),
                 Some(BagSubCommand::Use(items)) => bag_use(items),
+                Some(BagSubCommand::Pokeballs) => show_balls(),
                 None => return false,
             },
         }

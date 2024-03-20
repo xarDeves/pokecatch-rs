@@ -1,5 +1,6 @@
 //TODO: implement correct --help command
 //TODO: remove commands that have '--' or make all of them work with '--'
+
 /* ------------------------------ commands ------------------------------ */
 //pokecatch throw <ball name ie pokeball>
 //pokecatch pc show --caught (with sprites or not, percentage and amount of caught)
@@ -110,6 +111,9 @@ pub enum BagSubCommand {
 
     #[clap(name = "use")]
     Use(BagUseArgs),
+
+    #[clap(name = "pokeballs")]
+    Pokeballs,
 }
 
 #[derive(Parser, Debug)]

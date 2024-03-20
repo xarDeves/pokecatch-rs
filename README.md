@@ -15,6 +15,7 @@ Configure your terminal to run `pokecatch` each time you open it or just run `po
     - `greatball`
     - `ultraball`
     - `masterball`
+- `pokecatch bag pokeballs` : Display each pokeball amount available.
 - `pokecatch bag use <item>` : Use an item (or multiple) from your bag.
   - Options:
     - `shiny-bait`

@@ -37,7 +37,7 @@ impl Pokemon {
     
         match File::create(get_current_pokemon_path()) {
             Ok(mut file) => {
-                if let Err(err) = file.write_all(json_str.as_bytes()) {
+                if let Err(_) = file.write_all(json_str.as_bytes()) {
                     //eprintln!("Error writing to file {}: {}", CURRENT_POKEMON_PATH, err);
                 } else {
                     //eprintln!("Successfully wrote {} to {}", json_str, CURRENT_POKEMON_PATH);
@@ -76,4 +76,3 @@ impl Pokemon {
         BaseEntities::deserialize(&get_pokemon_encounter_chances_path())
     }
 }
-

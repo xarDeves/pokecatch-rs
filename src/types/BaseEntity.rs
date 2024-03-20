@@ -62,7 +62,7 @@ impl BaseEntities {
 
     pub fn print_items(item: &BaseEntities) {
         for item in &item.0 {
-            eprintln!("Name: {}, Quantity: {}", item.name, item.quantity);
+            eprintln!("{} : {}", item.name, item.quantity);
         }
         eprintln!("--------");
     }
