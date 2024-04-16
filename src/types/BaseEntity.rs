@@ -60,6 +60,10 @@ impl BaseEntities {
         self.0.iter().find(|i| i.name == item_name).map_or(0, |item| item.quantity)
     }
 
+    pub fn get_names(&self) -> Vec<&str> {
+        self.0.iter().map(|item| item.name.as_str()).collect()
+    }
+
     pub fn print_items(item: &BaseEntities) {
         for item in &item.0 {
             eprintln!("{} : {}", item.name, item.quantity);

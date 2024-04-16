@@ -12,49 +12,83 @@ use pokecatch::types::Pokemon::*;
 use pokecatch::types::Ball::*;
 use pokecatch::types::Item::*;
 
-
+//TODO: yeah...this needs cleanup
 fn throw(ball: &str) {
     let current_pokemon = Pokemon::read_from_current();
     
-    if current_pokemon.name == "" {
-        println!("no pokemon encountered, restart your terminal or re-run pokecatch !");
+    if current_pokemon.name.is_empty() {
+        println!("No pokemon encountered. Restart your terminal or re-run pokecatch!");
         return;
     }
     
-    if Pc::is_present(&current_pokemon){
-        println!("you already have that pokemon !");
+    if Pc::is_present(&current_pokemon) {
+        println!("You already have that pokemon!");
         return;
     }
-
-    println!("Throwing {} ball...", ball);
-
-    let mut pokeballs_contents = Ball::pokeballs();
+    
     let pokeballs_catch_rates_contents = Ball::catch_rates();
+    let mut pokeballs_contents = Ball::pokeballs();
 
-    let caught;
-    let catch_rate = pokeballs_catch_rates_contents.get_quantity(&ball);
-    let count = pokeballs_contents.get_quantity(&ball);
-
-    if count > 0 {
-        pokeballs_contents.modify_quantity(&ball, -1);
-        caught = calc_success_from_percentage(catch_rate);
+    if ball == "all" {
+        for ball_type in pokeballs_contents.get_names() {
+            if ball_type != "masterball" {
+                let mut count = pokeballs_contents.get_quantity(ball_type);
+                //remove this loop for sequantial ball throwing
+                //(right now we continiously throw pokeballs till we run out, then greatballs etc)
+                while count > 0{
+                    let mut pokeballs_contents = Ball::pokeballs();
+                    println!("Throwing {}", ball_type);
+                    let caught;
+                    let catch_rate = pokeballs_catch_rates_contents.get_quantity(ball_type);
+    
+                    pokeballs_contents.modify_quantity(ball_type, -1);
+                    caught = calc_success_from_percentage(catch_rate);
+                    //remove this for sequantial ball throwing
+                    count = pokeballs_contents.get_quantity(ball_type);
+    
+                    if caught {
+                        Pc::add(&current_pokemon);
+                        // Erase the current pokemon encountered from file since we caught it
+                        Pokemon::write_to_current(& Pokemon::new_emtpy());
+                        println!("You caught {}!", &current_pokemon.name);
+                        BaseEntities::serialize(&get_pokeball_contents_path(), &pokeballs_contents);
+                        return;
+                    } else {
+                        println!("Oh no, you could not catch {}.", current_pokemon.name);
+                    }
+                    BaseEntities::serialize(&get_pokeball_contents_path(), &pokeballs_contents);
+                }
+                println!("Not enough {}s", ball_type);
+            }
+        }
     } else {
-        println!("Not enough {}s", ball);
-        show_balls();
-        return;
+        println!("Throwing {}", ball);
+
+        let caught;
+        let catch_rate = pokeballs_catch_rates_contents.get_quantity(ball);
+        let count = pokeballs_contents.get_quantity(ball);
+
+        if count > 0 {
+            pokeballs_contents.modify_quantity(ball, -1);
+            caught = calc_success_from_percentage(catch_rate);
+        } else {
+            println!("Not enough {}s", ball);
+            show_balls();
+            return;
+        }
+
+        if caught {
+            Pc::add(&current_pokemon);
+            // Erase the current pokemon encountered from file since we caught it
+            Pokemon::write_to_current(& Pokemon::new_emtpy());
+            println!("You caught {}!", &current_pokemon.name);
+        } else {
+            println!("Oh no, you could not catch {}.", current_pokemon.name);
+        }
+
+        BaseEntities::serialize(&get_pokeball_contents_path(), &pokeballs_contents);
     }
 
-    BaseEntities::serialize(&get_pokeball_contents_path(), &pokeballs_contents);
-
-    if caught {
-        Pc::add(&current_pokemon);
-        //erase the current pokemon encountered from file since we caught it
-        Pokemon::write_to_current(& Pokemon::new_emtpy());
-        println!("you caught {} !", &current_pokemon.name);
-    }
-    else{
-        println!("oh no, you could not catch {}.", current_pokemon.name);
-    }
 }
 
 /* fn sanitize_filename(filename: String) -> String {
